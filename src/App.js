@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -6,14 +6,23 @@ import {
   Link,
   useParams,
   useNavigate,
-} from "react-router-dom";
+  useLocation,
+} from 'react-router-dom';
 
-import "./App.css";
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 function Home() {
   return <h1>Home</h1>;
 }
+
 function Categories() {
+  const query = useQuery();
+
+  console.log(query.get('page'));
   return (
     <>
       <h1>Categories</h1>
@@ -42,6 +51,7 @@ function Categories() {
     </>
   );
 }
+
 function CategoriesDetail() {
   let { id } = useParams();
   return <h1>Categories : {id}</h1>;
@@ -54,7 +64,7 @@ function Login() {
   return (
     <>
       <h1>About</h1>
-      <button onClick={() => navigate("/")}>Submit</button>
+      <button onClick={() => navigate('/')}>Submit</button>
     </>
   );
 }
