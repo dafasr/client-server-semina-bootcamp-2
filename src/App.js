@@ -1,59 +1,89 @@
-import "./App.css";
-import Button from "./components/Button";
-import Input from "./components/Input";
 import { useState } from "react";
-function App() {
-  const [number, setNumber] = useState(0);
-  // const [name, setName] = useState("");
-  // const [tahunLahir, setTahunLahir] = useState("");
-  // const [usia, setUsia] = useState("");
-  const [form, setForm] = useState({
-    name: "",
-    usia: "",
-    tahunLahir: "",
-  });
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 
-  const klik = () => {
-    setNumber(number + 1);
-  };
+import "./App.css";
 
-  const handleSubmit = () => {
-    setForm({ ...form, usia: 2023 - form.tahunLahir });
-  };
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
+function Home() {
+  return <h1>Home</h1>;
+}
+function Categories() {
   return (
     <>
-      <h1>Counter app</h1>
-      <p>Nilai counter saat ini {number} kali</p>
-      <Button onClick={klik}>Click me</Button>
-      <hr />
-      <h1>Aplikasi input data diri</h1>
-      name :{" "}
-      <Input
-        type="text"
-        value={form.name}
-        name="name"
-        onChange={handleChange}
-      />
-      <br />
-      <br />
-      Tahun Lahir :
-      <Input
-        type="number"
-        value={form.tahunLahir}
-        name="tahunLahir"
-        onChange={handleChange}
-      />
-      <br />
-      <br />
-      Umur saya : {form.usia}
-      <br />
-      <Button onClick={handleSubmit}>Submit</Button>
+      <h1>Categories</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              <Link to="/categories/69032">Seminar</Link>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <Link to="/categories/76213">Music</Link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </>
+  );
+}
+function CategoriesDetail() {
+  let { id } = useParams();
+  return <h1>Categories : {id}</h1>;
+}
+function About() {
+  return <h1>About</h1>;
+}
+function Login() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <h1>About</h1>
+      <button onClick={() => navigate("/")}>Submit</button>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/categories">Categories</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      </ul>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="categories/:id" element={<CategoriesDetail />} />
+        <Route path="about" element={<About />} />
+        <Route path="login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
